@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.utils.checkpoint as cp
 
 from mmcv.cnn import constant_init, kaiming_init
-#from mmcv.runner import load_checkpoint
+from mmcv.runner import load_checkpoint
 
 #from mmdet.ops import DeformConv, ModulatedDeformConv
 #from ..registry import BACKBONES
@@ -69,7 +69,7 @@ class InvertedResidual(nn.Module):
             return x + self.conv(x)
         else:
             return self.conv(x)
-
+'''
 model_urls = {
     'mobilenet_v2': 'https://download.pytorch.org/models/mobilenet_v2-b0353104.pth',
 }
@@ -83,6 +83,7 @@ def load_pretrained_weights(model, load_fc=True):
         state_dict.pop('_fc.bias')
         res = model.load_state_dict(state_dict, strict=False)
     print('Loaded pretrained weights for {}'.format('mobilenet_v2'))
+'''
 
 @BACKBONES.register_module
 class MobileNetV2(nn.Module):
@@ -153,11 +154,11 @@ class MobileNetV2(nn.Module):
 
         # self._initialize_weights()
     def init_weights(self, pretrained=None):
-        #if isinstance(pretrained, str):
-        #    logger = logging.getLogger()
-        #    load_checkpoint(self, pretrained, strict=False, logger=logger)
-        if pretrained:
-            load_pretrained_weights(self, load_fc=False)
+        if isinstance(pretrained, str):
+            logger = logging.getLogger()
+            load_checkpoint(self, pretrained, strict=False, logger=logger)
+        #if pretrained:
+        #    load_pretrained_weights(self, load_fc=False)
         elif pretrained is None:
             for m in self.modules():
                 if isinstance(m, nn.Conv2d):
