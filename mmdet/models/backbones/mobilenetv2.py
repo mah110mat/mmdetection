@@ -8,6 +8,7 @@ from mmcv.cnn import constant_init, kaiming_init
 
 #from mmdet.ops import DeformConv, ModulatedDeformConv
 #from ..registry import BACKBONES
+from ..builder import BACKBONES
 #from ..utils import build_norm_layer
 
 
